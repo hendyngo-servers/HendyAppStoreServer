@@ -1,4 +1,4 @@
-name = "hendy-app-store-platform"
+name = "hendyappstoreserver"
 main = "workers/edge-router/src/index.js"
 compatibility_date = "2024-09-23"
 
@@ -21,6 +21,7 @@ database_id = "d1-8f92-a1b2-c3d4e5f67890"
 # KV Namespace for Fast-Edge Variable Caching
 [[kv_namespaces]]
 binding = "ENV_CACHE"
+# Lưu ý: Thay "kv-8a7b6c5d4e3f2a1b" bằng ID thực tế sau khi bạn tạo namespace bằng npx wrangler kv:namespace create "ENV_CACHE"
 id = "kv-8a7b6c5d4e3f2a1b"
 
 # Workers Service Bindings
