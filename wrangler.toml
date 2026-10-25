@@ -1,34 +1,84 @@
+# ==============================================================================
+# CẤU HÌNH TRUNG TÂM CLOUDFLARE WORKERS & STORAGE (MONOREPO PRODUCTION & STAGING)
+# ==============================================================================
+
 name = "hendyappstoreserver"
 main = "workers/edge-router/src/index.js"
-compatibility_date = "2024-09-23"
+compatibility_date = "2026-03-01"
 
-# Cloudflare Pages / Workers Multi-Environment Topology
+# ==============================================================================
+# 1. CẤU HÌNH MÔI TRƯỜNG SẢN XUẤT (PRODUCTION ENVIRONMENT)
+# ==============================================================================
 [env.production]
 name = "hendy-app-store-prod"
-route = { pattern = "store.hendyappstore.com/*", zone_name = "hendyappstore.com" }
+routes = [
+  { pattern = "store.hendyappstore.com/*", zone_name = "hendyappstore.com" },
+  { pattern = "hendyappstore.com/*", zone_name = "hendyappstore.com" },
+  { pattern = "admin.hendyappstore.com/*", zone_name = "hendyappstore.com" }
+]
 
-# R2 Binary Storage Binding for Signed Installers (.apk, .ipa, .exe, .dmg)
-[[r2_buckets]]
+# R2 Binary Storage Binding cho các file cài đặt đã ký số (.apk, .ipa, .exe, .dmg)
+[[env.production.r2_buckets]]
 binding = "BINARY_REPO"
 bucket_name = "hendy-builds-binary-repo"
 
-# D1 Database for Audit Logs and Variables Revision History
-[[d1_databases]]
+# D1 Database cho Audit Logs và lịch sử thay đổi phiên bản biến môi trường
+[[env.production.d1_databases]]
 binding = "DB"
 database_name = "hendy_sync_audit"
 database_id = "d1-8f92-a1b2-c3d4e5f67890"
 
-# KV Namespace for Fast-Edge Variable Caching
-[[kv_namespaces]]
+# KV Namespace cho bộ nhớ đệm biến môi trường tại mạng biên (Fast-Edge Cache)
+[[env.production.kv_namespaces]]
 binding = "ENV_CACHE"
-# Lưu ý: Thay "kv-8a7b6c5d4e3f2a1b" bằng ID thực tế sau khi bạn tạo namespace bằng npx wrangler kv:namespace create "ENV_CACHE"
 id = "kv-8a7b6c5d4e3f2a1b"
 
-# Workers Service Bindings
-[[services]]
+# Service Bindings liên kết trực tiếp giữa các Workers nội bộ tại mạng biên
+[[env.production.services]]
 binding = "BACKEND_API"
 service = "hendy-backend-api"
 
-[[services]]
+[[env.production.services]]
 binding = "SELF_HEALING_BOT"
 service = "hendy-self-healing-bot"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+APP_NAME = "HendyAppStore"
+API_VERSION = "v1"
+
+
+# ==============================================================================
+# 2. CẤU HÌNH MÔI TRƯỜNG PHÁT TRIỂN / STAGING (DEVELOPMENT)
+# ==============================================================================
+[env.staging]
+name = "hendy-app-store-staging"
+routes = [
+  { pattern = "staging.hendyappstore.com/*", zone_name = "hendyappstore.com" }
+]
+
+[[env.staging.r2_buckets]]
+binding = "BINARY_REPO"
+bucket_name = "hendy-builds-binary-repo-staging"
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "hendy_sync_audit_staging"
+database_id = "your-staging-d1-database-uuid"
+
+[[env.staging.kv_namespaces]]
+binding = "ENV_CACHE"
+id = "your-staging-kv-id"
+
+[[env.staging.services]]
+binding = "BACKEND_API"
+service = "hendy-backend-api-staging"
+
+[[env.staging.services]]
+binding = "SELF_HEALING_BOT"
+service = "hendy-self-healing-bot-staging"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+APP_NAME = "HendyAppStore"
+API_VERSION = "v1"
