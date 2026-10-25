@@ -1,0 +1,6 @@
+{
+  "name": "HendyAppStore - Adaptive Multi-Platform Distribution & Automation Sync",
+  "description": "Enterprise multi-platform app distribution platform with adaptive UI core, Cloudflare edge routing, 26 secrets and variables GitHub API synchronization, and automated CI/CD matrix build signing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

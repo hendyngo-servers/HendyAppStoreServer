@@ -1,0 +1,42 @@
+{
+  "version": "2.4.0",
+  "engine": "HendyAppStore Self-Healing Diagnostics Core",
+  "rules": [
+    {
+      "id": "RULE_ANDROID_001",
+      "targetPlatform": "Android",
+      "pattern": "apksigner: ERROR: Key alias .* not found in keystore",
+      "severity": "CRITICAL",
+      "action": "SYNC_VARIABLE_PATCH",
+      "targetVariable": "ANDROID_KEY_ALIAS",
+      "fallbackStrategy": "QUERY_KEYSTORE_ENTRIES"
+    },
+    {
+      "id": "RULE_IOS_002",
+      "targetPlatform": "iOS",
+      "pattern": "Code Signing Error: Provisioning profile .* does not match bundle identifier",
+      "severity": "CRITICAL",
+      "action": "RELOAD_MOBILEPROVISION",
+      "targetVariable": "IOS_PROVISION_PROFILE_BASE64",
+      "fallbackStrategy": "AUTO_REGENERATE_ENTITLEMENTS"
+    },
+    {
+      "id": "RULE_WIN_003",
+      "targetPlatform": "Windows",
+      "pattern": "SignTool Error: The specified PFX password is not correct",
+      "severity": "HIGH",
+      "action": "ALERT_ADMIN_KEY_ROTATION",
+      "targetVariable": "WINDOWS_CERT_PASSWORD",
+      "fallbackStrategy": "RETRY_WITH_BACKUP_VAULT"
+    },
+    {
+      "id": "RULE_NET_004",
+      "targetPlatform": "EdgeRouter",
+      "pattern": "CORS preflight blocked by ALLOWED_ORIGINS policy",
+      "severity": "MEDIUM",
+      "action": "AUTO_APPEND_VERIFIED_ORIGIN",
+      "targetVariable": "ALLOWED_ORIGINS",
+      "fallbackStrategy": "APPEND_CLOUDFLARE_PAGES_HOST"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+name = "hendy-app-store-platform"
+main = "workers/edge-router/src/index.js"
+compatibility_date = "2024-09-23"
+
+# Cloudflare Pages / Workers Multi-Environment Topology
+[env.production]
+name = "hendy-app-store-prod"
+route = { pattern = "store.hendyappstore.com/*", zone_name = "hendyappstore.com" }
+
+# R2 Binary Storage Binding for Signed Installers (.apk, .ipa, .exe, .dmg)
+[[r2_buckets]]
+binding = "BINARY_REPO"
+bucket_name = "hendy-builds-binary-repo"
+
+# D1 Database for Audit Logs and Variables Revision History
+[[d1_databases]]
+binding = "DB"
+database_name = "hendy_sync_audit"
+database_id = "d1-8f92-a1b2-c3d4e5f67890"
+
+# KV Namespace for Fast-Edge Variable Caching
+[[kv_namespaces]]
+binding = "ENV_CACHE"
+id = "kv-8a7b6c5d4e3f2a1b"
+
+# Workers Service Bindings
+[[services]]
+binding = "BACKEND_API"
+service = "hendy-backend-api"
+
+[[services]]
+binding = "SELF_HEALING_BOT"
+service = "hendy-self-healing-bot"
