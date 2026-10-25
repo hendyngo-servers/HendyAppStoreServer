@@ -1,0 +1,10 @@
+name = "hendyappstore-backend-api"
+main = "src/index.js"
+compatibility_date = "2026-03-01"
+
+[vars]
+GITHUB_OWNER = "HendyCorp"
+GITHUB_REPO = "HendyAppStore"
+
+# Lưu ý: GITHUB_TOKEN cần được đặt làm Secret bảo mật thông qua lệnh:
+# npx wrangler secret put GITHUB_TOKEN
