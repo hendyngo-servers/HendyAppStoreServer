@@ -389,27 +389,28 @@ export const INITIAL_SECRETS_DATA: SecretDefinition[] = [
 
 export const GROUP_META = {
   GROUP_1_SYSTEM_NETWORK: {
-    title: 'GROUP 1: System & Network Security',
-    badge: '3 Public Variables',
+    title: 'NHÓM 1: Bảo Mật Hệ Thống & Mạng (System & Network Security)',
+    badge: '3 Biến Công Khai',
     color: 'emerald',
-    description: 'Public variables governing Cloudflare Access authentication, CORS headers, and administrator authorization lists.'
+    description: 'Các biến công khai chi phối xác thực Cloudflare Access, chính sách CORS và danh sách email quản trị viên được phân quyền.'
   },
   GROUP_2_AUTOMATION_WEBHOOKS: {
-    title: 'GROUP 2: Automation & Webhooks',
-    badge: '6 Secrets & Variables',
+    title: 'NHÓM 2: Tự Động Hóa & Webhook (Automation & Webhooks)',
+    badge: '6 Bí Mật & Biến',
     color: 'amber',
-    description: 'Encrypted tokens, webhook URLs, and AI API keys enabling the automated self-healing bot and GitHub workflow runners.'
+    description: 'Các token mã hóa, URL webhook và khóa AI API kích hoạt bot tự chữa lành và các runner ma trận GitHub Actions.'
   },
   GROUP_3_MOBILE_SIGNING: {
-    title: 'GROUP 3: Mobile Digital Signing (Android & iOS/macOS)',
-    badge: '15 Secrets & Variables',
+    title: 'NHÓM 3: Ký Số Ứng Dụng Di Động (Android & iOS/macOS Signing)',
+    badge: '16 Bí Mật & Biến',
     color: 'indigo',
-    description: 'Keystore, P12 certificates, provisioning profiles, and credentials for automated V2 APK signing and Apple notarization.'
+    description: 'Keystore, chứng chỉ Apple .p12, hồ sơ cấu hình MobileProvision và tài khoản kết nối cho quy trình đóng gói ký số tự động.'
   },
   GROUP_4_DESKTOP_SIGNING: {
-    title: 'GROUP 4: Desktop Application Signing (Windows)',
-    badge: '2 Encrypted Credentials',
+    title: 'NHÓM 4: Ký Số Ứng Dụng Máy Tính (Windows SignTool Authenticode)',
+    badge: '2 Thông Số Mã Hóa',
     color: 'cyan',
-    description: 'Authenticode PFX certificates and SignTool passwords to bypass Microsoft Windows SmartScreen security checks.'
+    description: 'Chứng chỉ Authenticode PFX và mật khẩu SignTool.exe giúp bộ cài đặt Windows vượt qua cảnh báo SmartScreen.'
   }
 };
+

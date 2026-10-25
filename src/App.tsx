@@ -15,6 +15,7 @@ import { SelfHealingBotPanel } from './components/SelfHealingBotPanel.tsx';
 import { MonorepoExplorer } from './components/MonorepoExplorer.tsx';
 import { OneClickDeployModal } from './components/OneClickDeployModal.tsx';
 import { INITIAL_SECRETS_DATA, SecretDefinition } from './lib/secrets-data.ts';
+import { translations, Language } from './lib/i18n.ts';
 import {
   Layers,
   Shield,
@@ -31,6 +32,7 @@ import {
   Globe,
   Radio,
   Rocket,
+  Languages,
 } from 'lucide-react';
 
 export default function App() {
@@ -63,6 +65,9 @@ export default function App() {
     platform: 'Android',
     stage: 'V2 Digital Signing',
   });
+
+  const [lang, setLang] = useState<Language>('vi');
+  const t = translations[lang];
 
   const [showDeployModal, setShowDeployModal] = useState(false);
 
@@ -139,85 +144,98 @@ export default function App() {
                   HendyAppStore
                 </span>
                 <span className="hidden sm:inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                  Proxy: ON
+                  {t.proxyOn}
                 </span>
                 <span className="hidden md:inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">
-                  R2 CDN
+                  {t.r2Cdn}
                 </span>
               </div>
               <p className="text-[10px] text-slate-400 hidden sm:block">
-                Adaptive UI Core &amp; Automated Environment Sync Pipeline
+                {t.brandSub}
               </p>
             </div>
           </div>
 
-          {/* Device Detection Simulator Widget */}
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800 text-xs">
-            <span className="text-[10px] text-slate-400 font-medium px-2 hidden sm:inline">
-              Client Viewport:
-            </span>
-
+          {/* Controls: Language Switcher, Viewport Simulator, One-Click Deploy */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Language Switcher */}
             <button
-              onClick={() => resetToRealDevice()}
-              className={`px-2.5 py-1 rounded-lg font-medium transition-all cursor-pointer ${
-                simulatedPlatform === null
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-              title="Real Browser User Agent"
+              onClick={() => setLang(lang === 'vi' ? 'en' : 'vi')}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700/80 text-xs font-semibold text-slate-200 hover:border-indigo-500 transition-all cursor-pointer shadow-sm"
+              title="Chuyển đổi Ngôn ngữ (Tiếng Việt / English)"
             >
-              Auto ({deviceInfo.platform.toUpperCase()})
+              <Languages className="w-3.5 h-3.5 text-indigo-400" />
+              <span>{lang === 'vi' ? '🇻🇳 Tiếng Việt' : '🇺🇸 English'}</span>
             </button>
 
-            <button
-              onClick={() => setSimulatedPlatform('ios')}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition-all cursor-pointer ${
-                simulatedPlatform === 'ios'
-                  ? 'bg-sky-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-              title="Simulate iPhone (iOS Safari OTA)"
-            >
-              <Apple className="w-3 h-3" />
-              <span>iOS</span>
-            </button>
+            {/* Device Detection Simulator Widget */}
+            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800 text-xs">
+              <span className="text-[10px] text-slate-400 font-medium px-2 hidden sm:inline">
+                {t.viewport}
+              </span>
 
-            <button
-              onClick={() => setSimulatedPlatform('android')}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition-all cursor-pointer ${
-                simulatedPlatform === 'android'
-                  ? 'bg-emerald-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-              title="Simulate Samsung Galaxy (Android V2 APK)"
-            >
-              <Smartphone className="w-3 h-3" />
-              <span>Android</span>
-            </button>
+              <button
+                onClick={() => resetToRealDevice()}
+                className={`px-2.5 py-1 rounded-lg font-medium transition-all cursor-pointer ${
+                  simulatedPlatform === null
+                    ? 'bg-indigo-600 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+                title="Real Browser User Agent"
+              >
+                {t.auto} ({deviceInfo.platform.toUpperCase()})
+              </button>
 
+              <button
+                onClick={() => setSimulatedPlatform('ios')}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition-all cursor-pointer ${
+                  simulatedPlatform === 'ios'
+                    ? 'bg-sky-600 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+                title="Simulate iPhone (iOS Safari OTA)"
+              >
+                <Apple className="w-3 h-3" />
+                <span>iOS</span>
+              </button>
+
+              <button
+                onClick={() => setSimulatedPlatform('android')}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition-all cursor-pointer ${
+                  simulatedPlatform === 'android'
+                    ? 'bg-emerald-600 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+                title="Simulate Samsung Galaxy (Android V2 APK)"
+              >
+                <Smartphone className="w-3 h-3" />
+                <span>Android</span>
+              </button>
+
+              <button
+                onClick={() => setSimulatedPlatform('windows')}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition-all cursor-pointer ${
+                  simulatedPlatform === 'windows'
+                    ? 'bg-cyan-600 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+                title="Simulate Windows 11 PC (Authenticode EXE)"
+              >
+                <Monitor className="w-3 h-3" />
+                <span>Windows</span>
+              </button>
+            </div>
+
+            {/* One-Click Deploy Action Button */}
             <button
-              onClick={() => setSimulatedPlatform('windows')}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition-all cursor-pointer ${
-                simulatedPlatform === 'windows'
-                  ? 'bg-cyan-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-              title="Simulate Windows 11 PC (Authenticode EXE)"
+              onClick={() => setShowDeployModal(true)}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-indigo-500 via-sky-500 to-purple-600 hover:brightness-110 shadow-lg shadow-indigo-500/25 transition-all cursor-pointer"
+              title="Deploy to Cloudflare Pages & Shareable URL"
             >
-              <Monitor className="w-3 h-3" />
-              <span>Windows</span>
+              <Rocket className="w-3.5 h-3.5" />
+              <span>{t.deployAndShare}</span>
             </button>
           </div>
-
-          {/* One-Click Deploy Action Button */}
-          <button
-            onClick={() => setShowDeployModal(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-indigo-500 via-sky-500 to-purple-600 hover:brightness-110 shadow-lg shadow-indigo-500/25 transition-all cursor-pointer"
-            title="Deploy to Cloudflare Pages & Shareable URL"
-          >
-            <Rocket className="w-3.5 h-3.5" />
-            <span>Deploy &amp; Share</span>
-          </button>
         </div>
 
         {/* Navigation Tabs Bar */}
@@ -231,7 +249,7 @@ export default function App() {
             }`}
           >
             <Layers className="w-3.5 h-3.5 text-indigo-300" />
-            <span>1. System Architecture</span>
+            <span>{t.tabArchitecture}</span>
           </button>
 
           <button
@@ -243,7 +261,7 @@ export default function App() {
             }`}
           >
             <Shield className="w-3.5 h-3.5 text-amber-300" />
-            <span>2. Web-Admin (26 Variables &amp; Certs)</span>
+            <span>{t.tabAdmin}</span>
           </button>
 
           <button
@@ -255,7 +273,7 @@ export default function App() {
             }`}
           >
             <Smartphone className="w-3.5 h-3.5 text-emerald-300" />
-            <span>3. Web-User (Adaptive Storefront)</span>
+            <span>{t.tabUser}</span>
           </button>
 
           <button
@@ -267,7 +285,7 @@ export default function App() {
             }`}
           >
             <Play className="w-3.5 h-3.5 text-sky-300" />
-            <span>4. Matrix Build Runner (3 OS)</span>
+            <span>{t.tabMatrix}</span>
           </button>
 
           <button
@@ -279,7 +297,7 @@ export default function App() {
             }`}
           >
             <BrainCircuit className="w-3.5 h-3.5 text-purple-300" />
-            <span>5. Self-Healing Bot (Thinking: HIGH)</span>
+            <span>{t.tabSelfHealing}</span>
           </button>
 
           <button
@@ -291,7 +309,7 @@ export default function App() {
             }`}
           >
             <FolderTree className="w-3.5 h-3.5 text-indigo-300" />
-            <span>6. Monorepo Explorer &amp; Code</span>
+            <span>{t.tabMonorepo}</span>
           </button>
         </div>
       </header>
@@ -355,9 +373,9 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-4 text-[11px]">
           <div className="flex items-center gap-2 text-slate-400">
             <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-            <span>Edge Network Active • Cloudflare Workers + GitHub Actions Matrix Integration</span>
+            <span>{t.networkActive}</span>
           </div>
-          <p>© 2026 HendyAppStore Monorepo. All 26 variables synchronized under Libsodium crypto_box_seal.</p>
+          <p>{t.footerCopyright}</p>
         </div>
       </footer>
 
