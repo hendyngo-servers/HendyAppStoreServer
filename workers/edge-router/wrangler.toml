@@ -1,0 +1,27 @@
+# Tên của Worker hiển thị trên Cloudflare Dashboard
+name = "hendyappstore-edge-router"
+
+# Điểm khởi chạy mã nguồn của Worker
+main = "src/index.js"
+
+# Phiên bản tương thích của Cloudflare Workers Runtime (sử dụng định dạng ngày phát hành)
+compatibility_date = "2026-03-01"
+
+# Cấu hình tuyến đường (Routes) để Worker lắng nghe traffic từ tên miền của bạn
+# Thay thế "hendyappstore.com" bằng tên miền thực tế của dự án
+routes = [
+  { pattern = "hendyappstore.com/*", zone_name = "hendyappstore.com" },
+  { pattern = "admin.hendyappstore.com/*", zone_name = "hendyappstore.com" }
+]
+
+# Cấu hình môi trường phát triển (Local Development)
+[env.dev]
+name = "hendyappstore-edge-router-dev"
+routes = [
+  { pattern = "dev.hendyappstore.com/*", zone_name = "hendyappstore.com" }
+]
+
+# Các biến môi trường hoặc cấu hình tĩnh chạy trực tiếp tại Edge (nếu cần)
+[vars]
+ENVIRONMENT = "production"
+DEFAULT_FALLBACK_REGION = "auto"
